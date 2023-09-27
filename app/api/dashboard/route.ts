@@ -1,7 +1,8 @@
+import { MockedData } from "@/components/dashboard/data/schema";
 import { NextResponse } from "next/server";
 
 export async function GET() {
-  const mocked_data = {
+  const mocked_data: MockedData = {
     summary: {
       totalQuantity: 1546,
       totalAmount: 313388,
@@ -39,7 +40,7 @@ export async function GET() {
         minimumMDRAmmount: -3.12,
         mdrTaxAmount: 0.0,
         mdrFeeAmount: -3.12,
-        status: "Aprovada",
+        status: "Approved",
       },
       {
         id: "114606514478704",
@@ -61,7 +62,7 @@ export async function GET() {
         minimumMDRAmmount: -3.12,
         mdrTaxAmount: 0.0,
         mdrFeeAmount: -3.12,
-        status: "Aprovada",
+        status: "Approved",
       },
       {
         id: "114606514478705",
@@ -83,7 +84,7 @@ export async function GET() {
         minimumMDRAmmount: -3.51,
         mdrTaxAmount: 0.0,
         mdrFeeAmount: -3.51,
-        status: "Aprovada",
+        status: "Approved",
       },
       {
         id: "114606514478706",
@@ -105,7 +106,7 @@ export async function GET() {
         minimumMDRAmmount: -3.51,
         mdrTaxAmount: 0.0,
         mdrFeeAmount: -3.51,
-        status: "Aprovada",
+        status: "Approved",
       },
       {
         id: "114606514478701",
@@ -127,7 +128,7 @@ export async function GET() {
         minimumMDRAmmount: 0.0,
         mdrTaxAmount: 0.0,
         mdrFeeAmount: -2.73,
-        status: "Aprovada",
+        status: "Approved",
       },
       {
         id: "114606514478705",
@@ -149,7 +150,7 @@ export async function GET() {
         minimumMDRAmmount: 0.0,
         mdrTaxAmount: 0.0,
         mdrFeeAmount: -3.51,
-        status: "Aprovada",
+        status: "Approved",
       },
       {
         id: "114606514478366",
@@ -171,7 +172,7 @@ export async function GET() {
         minimumMDRAmmount: 0.0,
         mdrTaxAmount: 0.0,
         mdrFeeAmount: -3.51,
-        status: "Aprovada",
+        status: "Approved",
       },
       {
         id: "114606514478688",
@@ -193,7 +194,7 @@ export async function GET() {
         minimumMDRAmmount: 0.0,
         mdrTaxAmount: 0.0,
         mdrFeeAmount: -2.73,
-        status: "Aprovada",
+        status: "Approved",
       },
       {
         id: "114606514478686",
@@ -215,7 +216,7 @@ export async function GET() {
         minimumMDRAmmount: 0.0,
         mdrTaxAmount: 0.0,
         mdrFeeAmount: -20.34,
-        status: "Aprovada",
+        status: "Approved",
       },
       {
         id: "114606514478685",
@@ -237,7 +238,7 @@ export async function GET() {
         minimumMDRAmmount: 0.0,
         mdrTaxAmount: 0.0,
         mdrFeeAmount: -2.34,
-        status: "Aprovada",
+        status: "Approved",
       },
       {
         id: "114606514478684",
@@ -259,7 +260,7 @@ export async function GET() {
         minimumMDRAmmount: 0.0,
         mdrTaxAmount: 0.0,
         mdrFeeAmount: -1.95,
-        status: "Aprovada",
+        status: "Approved",
       },
       {
         id: "114606514478703",
@@ -281,7 +282,7 @@ export async function GET() {
         minimumMDRAmmount: 0.0,
         mdrTaxAmount: 0.0,
         mdrFeeAmount: -3.12,
-        status: "Aprovada",
+        status: "Approved",
       },
       {
         id: "114606514478704",
@@ -303,7 +304,7 @@ export async function GET() {
         minimumMDRAmmount: 0.0,
         mdrTaxAmount: 0.0,
         mdrFeeAmount: -3.12,
-        status: "Aprovada",
+        status: "Approved",
       },
       {
         id: "114606514478702",
@@ -325,7 +326,7 @@ export async function GET() {
         minimumMDRAmmount: 0.0,
         mdrTaxAmount: 0.0,
         mdrFeeAmount: -2.73,
-        status: "Aprovada",
+        status: "Approved",
       },
       {
         id: "114606514478356",
@@ -347,7 +348,7 @@ export async function GET() {
         minimumMDRAmmount: 0.0,
         mdrTaxAmount: 0.0,
         mdrFeeAmount: -2.73,
-        status: "Aprovada",
+        status: "Approved",
       },
       {
         id: "114606514478693",
@@ -369,7 +370,7 @@ export async function GET() {
         minimumMDRAmmount: 0.0,
         mdrTaxAmount: 0.0,
         mdrFeeAmount: -2.89,
-        status: "Aprovada",
+        status: "Approved",
       },
       {
         id: "114606514478692",
@@ -391,7 +392,7 @@ export async function GET() {
         minimumMDRAmmount: 0.0,
         mdrTaxAmount: 0.0,
         mdrFeeAmount: -2.5,
-        status: "Pendente",
+        status: "Pending",
       },
       {
         id: "114606514478357",
@@ -413,7 +414,7 @@ export async function GET() {
         minimumMDRAmmount: 0.0,
         mdrTaxAmount: 0.0,
         mdrFeeAmount: -2.11,
-        status: "Aprovada",
+        status: "Approved",
       },
       {
         id: "114606514478691",
@@ -435,7 +436,7 @@ export async function GET() {
         minimumMDRAmmount: 0.0,
         mdrTaxAmount: 0.0,
         mdrFeeAmount: -2.5,
-        status: "Aprovada",
+        status: "Approved",
       },
       {
         id: "114606514478690",
@@ -457,7 +458,7 @@ export async function GET() {
         minimumMDRAmmount: 0.0,
         mdrTaxAmount: 0.0,
         mdrFeeAmount: -2.11,
-        status: "Pendente",
+        status: "Pending",
       },
       {
         id: "114606514478357",
@@ -479,7 +480,7 @@ export async function GET() {
         minimumMDRAmmount: -2.11,
         mdrTaxAmount: 0.0,
         mdrFeeAmount: -2.11,
-        status: "Aprovada",
+        status: "Approved",
       },
       {
         id: "114606514478358",
@@ -501,7 +502,7 @@ export async function GET() {
         minimumMDRAmmount: -2.5,
         mdrTaxAmount: 0.0,
         mdrFeeAmount: -2.5,
-        status: "Aprovada",
+        status: "Approved",
       },
       {
         id: "114606514478359",
@@ -523,7 +524,7 @@ export async function GET() {
         minimumMDRAmmount: -2.89,
         mdrTaxAmount: 0.0,
         mdrFeeAmount: -2.89,
-        status: "Negada",
+        status: "Denied",
       },
       {
         id: "114606514478689",
@@ -545,7 +546,7 @@ export async function GET() {
         minimumMDRAmmount: -2.11,
         mdrTaxAmount: 0.0,
         mdrFeeAmount: -2.11,
-        status: "Aprovada",
+        status: "Approved",
       },
       {
         id: "114606514478690",
@@ -567,7 +568,7 @@ export async function GET() {
         minimumMDRAmmount: -200.11,
         mdrTaxAmount: 0.0,
         mdrFeeAmount: -200.11,
-        status: "Aprovada",
+        status: "Approved",
       },
     ],
   };
