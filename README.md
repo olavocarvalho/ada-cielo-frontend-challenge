@@ -2,7 +2,7 @@
 
 The challenge is to transform the information (the json provided) from a legacy system into a Service/API to be exposed and consumed by the application as a data source to develop an application that adds analytical value to the end customer.
 
-Due to time constraints and limited data availability, a significant portion of development time was allocated to faking and exposing data through an HTTP API. Consequently, the application does not currently incorporate essential analytical components like charts. Future iterations of the app will prioritize the integration of suitable charting libraries to provide insightful visualizations for a more comprehensive analytical experience. Some charts I was planning to have: Transactions by day, Count transactions by status, Count transactions by Card Brand.
+Since analytical and dashboard apps are mostly used in a daily basis or shared between coworkers, I focused to create a dashboard that the state can be shared or bookable in favorites due to the 'state' of the dashboard be stored in the URL instead internally by the app (You can test by copying the url and pasting a new browser tab).
 
 ## Exploratory Data Analysis
 
