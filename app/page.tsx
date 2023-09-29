@@ -222,7 +222,7 @@ export default async function Dashboard({ searchParams }: DashboardPageProps) {
         </div>
         <div className="flex flex-1 overflow-x-scroll">
           <Card className="overflow-x-hidden">
-            <CardContent className="mt-6 min-w-full max-w-full overflow-x-scroll">
+            <CardContent className="mt-6 min-w-full max-w-full">
               <DataTable
                 data={transactions}
                 columns={columns}
