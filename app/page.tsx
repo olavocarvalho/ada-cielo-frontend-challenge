@@ -14,6 +14,7 @@ import { formatPrice } from "@/lib/utils";
 import { Metadata } from "next";
 import { z } from "zod";
 import { getTransactionsData } from "@/actions/get-transactions-data";
+import { CountByDay } from "@/components/dashboard/charts/count-by-day";
 
 interface DashboardPageProps {
   searchParams: {
@@ -31,8 +32,6 @@ export default async function Dashboard({ searchParams }: DashboardPageProps) {
   // Get the Dashboard State from the searchParams
   const { initialDate, finalDate, page, per_page, status, cardBrand } =
     searchParams || {};
-
-  console.log(searchParams);
 
   // Number of items per page
   const limit =
@@ -63,41 +62,13 @@ export default async function Dashboard({ searchParams }: DashboardPageProps) {
     transactionsData.summary.totalNetAmount;
   const roundedFees = parseFloat(fees.toFixed(2));
 
-  // const countUniqueTypes = (transactions: any[]): Record<string, number> => {
-  //   return transactions.reduce(
-  //     (counts, transaction) => {
-  //       const { paymentType, cardBrand, channelCode, status } = transaction;
-
-  //       // Count paymentType
-  //       counts.paymentType[paymentType] =
-  //         (counts.paymentType[paymentType] || 0) + 1;
-
-  //       // Count cardBrand
-  //       counts.cardBrand[cardBrand] = (counts.cardBrand[cardBrand] || 0) + 1;
-
-  //       // Count channelCode
-  //       counts.channelCode[channelCode.toString()] =
-  //         (counts.channelCode[channelCode.toString()] || 0) + 1;
-
-  //       // Count status
-  //       counts.status[status] = (counts.status[status] || 0) + 1;
-
-  //       return counts;
-  //     },
-  //     {
-  //       paymentType: {},
-  //       cardBrand: {},
-  //       channelCode: {},
-  //       status: {},
-  //     }
-  //   );
-  // };
+  console.log("counts", transactionsData.counts);
 
   return (
     <div className="flex flex-col pb-8 w-full overflow-x-hidden">
       <div className="border-b">
         <div className="flex h-16 items-center lg:max-w-6xl max-w-xs mx-auto justify-between overflow-x-hidden gap-x-4 px-2">
-          <h1>ADA & Cielo Bootcamp</h1>
+          <h1 className="text-[#017ceb]">ADA & Cielo Bootcamp</h1>
           <ThemeToggle />
         </div>
       </div>
@@ -222,6 +193,30 @@ export default async function Dashboard({ searchParams }: DashboardPageProps) {
               <p className="text-xs text-muted-foreground mt-1">
                 Per transaction
               </p>
+            </CardContent>
+          </Card>
+        </div>
+        <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+          <Card className="md:col-span-2">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 mb-4">
+              <CardTitle className="text-sm font-medium uppercase">
+                Transactions by day
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <CountByDay data={transactionsData.counts.countsByDay} />
+            </CardContent>
+          </Card>
+          <Card className="md:col-span-2">
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 mb-4">
+              <CardTitle className="text-sm font-medium uppercase">
+                Transactions by Card Brand
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <pre className="text-slate-400">
+                {JSON.stringify(transactionsData.counts.countsByBrand, null, 2)}
+              </pre>
             </CardContent>
           </Card>
         </div>

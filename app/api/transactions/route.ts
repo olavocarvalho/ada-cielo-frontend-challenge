@@ -31,6 +31,41 @@ function summarizer(accumulator: Partial<Summary>, item: Item) {
   return accumulator;
 }
 
+function formatDate(date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
+function countItemsByDaySplitByStatus(items: any) {
+  return items.reduce(
+    (counts, item) => {
+      const formattedDate = formatDate(new Date(item.date));
+
+      // Initialize counts for the day if not present
+      if (!counts.countsByDay[formattedDate]) {
+        counts.countsByDay[formattedDate] = {};
+      }
+
+      // Count by status for the specific day
+      counts.countsByDay[formattedDate][item.status] =
+        (counts.countsByDay[formattedDate][item.status] || 0) + 1;
+
+      // Count by status globally
+      counts.countsByStatus[item.status] =
+        (counts.countsByStatus[item.status] || 0) + 1;
+
+      // Count by card brand
+      counts.countsByBrand[item.cardBrand] =
+        (counts.countsByBrand[item.cardBrand] || 0) + 1;
+
+      return counts;
+    },
+    { countsByDay: {}, countsByStatus: {}, countsByBrand: {} }
+  );
+}
+
 export async function GET(request: NextRequest) {
   const filters = {
     status: request.nextUrl.searchParams.get("status"),
@@ -99,10 +134,15 @@ export async function GET(request: NextRequest) {
       firstPage: false,
     };
 
+    const counts = countItemsByDaySplitByStatus(filteredByDateRange);
+
+    console.log(counts);
+
     return NextResponse.json({
       data: {
         summary,
         pagination,
+        counts,
         items: filteredByFilters.slice(
           _pagination.offset,
           _pagination.offset + _pagination.limit

@@ -41,9 +41,16 @@ export const itemSchema = z.object({
   status: z.enum(["Approved", "Pending", "Denied"]),
 });
 
+const countSchema = z.object({
+  countsByDay: z.record(z.number()),
+  countsByStatus: z.record(z.number()),
+  countsByBrand: z.record(z.number()),
+});
+
 export const mockedDataSchema = z.object({
   summary: summarySchema,
   pagination: paginationSchema,
+  counts: countSchema,
   items: z.array(itemSchema),
 });
 
