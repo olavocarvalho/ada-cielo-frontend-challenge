@@ -2,7 +2,7 @@
 
 The challenge is to transform the information (the json provided) from a legacy system into a Service/API to be exposed and consumed by the application as a data source to develop an application that adds analytical value to the end customer.
 
-In enterprise companies, a end customer can represent many diferent roles, I'll assume that is a Business Analyst from .
+Due to time constraints and limited data availability, a significant portion of development time was allocated to faking and exposing data through an HTTP API. Consequently, the application does not currently incorporate essential analytical components like charts. Future iterations of the app will prioritize the integration of suitable charting libraries to provide insightful visualizations for a more comprehensive analytical experience. Some charts I was planning to have: Transactions by day, Count transactions by status, Count transactions by Card Brand.
 
 ## Exploratory Data Analysis
 
@@ -85,6 +85,8 @@ Continuous variables are measurable and can take any numerical value within a ra
 
 # How to run the project
 
+## App in dev mode
+
 First, create .env.local file from the .env.example and set the environment variables, then:
 
 ```bash
@@ -99,11 +101,21 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## Code Style Conventions and Best Practices
+## Running Tests
 
-### Best Practices
+To run the tests, use the following command:
 
-#### Container and Presentational Components
+```bash
+npm test
+```
+
+This command will execute all the tests using Jest and provide the test reports and output.
+
+# Code Style Conventions and Best Practices
+
+## Best Practices
+
+### Container and Presentational Components
 
 To follow the separation of concerns principle by differentiating between container components (handling logic and data) and presentational components (handling UI) we have the structure below:
 
@@ -130,9 +142,9 @@ lib/
 |-- other-file.ts
 ```
 
-### Testing
+## Testing
 
-#### Unit and Integration Testing
+### Unit and Integration Testing
 
 - **Jest**: A popular JavaScript testing framework that provides a powerful and flexible testing environment.
 
@@ -153,6 +165,6 @@ lib/
 - **@types/jest, @types/react, @types/react-dom**: TypeScript type definitions for Jest, React, and React DOM.
   - Version: latest
 
-## Authors
+# Authors
 
 - [Olavo de Carvalho](https://github.com/olavocarvalho)
