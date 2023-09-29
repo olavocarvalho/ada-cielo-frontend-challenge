@@ -4,6 +4,11 @@ The challenge is to transform the information (the json provided) from a legacy 
 
 Since analytical and dashboard apps are mostly used in a daily basis or shared between coworkers, I focused to create a dashboard that the state can be shared or bookable in favorites due to the 'state' of the dashboard be stored in the URL instead internally by the app (You can test by copying the url and pasting a new browser tab).
 
+### Next steps and Known Issues
+
+- The test coverage wasn't >= 80% because I spent more time than I expected to create a way to manage the state of the dashboard in the URL and a server-side pagination and filtering system for the table
+- Split the API calls by context in the dashboard and apply React Suspense boundaries to delivery content to users earlier
+
 ## Exploratory Data Analysis
 
 To create an application that adds analytical value, the first step is to perform a exploratory data analysis (EDA) based on the provided JSON data. I started by understanding the structure of the data and explaining each property in both the "summary" and "items" objects.
