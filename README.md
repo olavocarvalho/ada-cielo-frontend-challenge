@@ -64,11 +64,26 @@ Continuous variables are measurable and can take any numerical value within a ra
 - **mdrTaxAmount**: MDR tax amount.
 - **mdrFeeAmount**: MDR fee amount.
 
+## Tech Stack
+
+### Frameworks
+
+- [Next.js](https://nextjs.org/) – React framework for building performant apps with the best developer experience
+
+### UI
+
+- [Tailwind CSS](https://tailwindcss.com/) – Utility-first CSS framework for rapid UI development
+- [Radix](https://www.radix-ui.com/) – Primitives like modal, popover, etc. to build a stellar user experience
+- [Shadcn UI](https://ui.shadcn.com) – Beautifully designed components using tailwind and radix
+- [Lucide](https://lucide.dev/) – Beautifully simple, pixel-perfect icons
+
+### Code Quality
+
+- [TypeScript](https://www.typescriptlang.org/) – Static type checker for end-to-end typesafety
+- [Prettier](https://prettier.io/) – Opinionated code formatter for consistent code style
+- [ESLint](https://eslint.org/) – Pluggable linter for Next.js and TypeScript
+
 # How to run the project
-
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
-
-## Getting Started
 
 First, create .env.local file from the .env.example and set the environment variables, then:
 
@@ -83,3 +98,61 @@ bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+## Code Style Conventions and Best Practices
+
+### Best Practices
+
+#### Container and Presentational Components
+
+To follow the separation of concerns principle by differentiating between container components (handling logic and data) and presentational components (handling UI) we have the structure below:
+
+```
+components/
+|-- ui/
+  |-- button.tsx
+  |-- dropdown-menu.tsx
+  theme-provider.tsx
+  theme-toggle.tsx
+```
+
+### Files and Components Naming Convention
+
+Files should be named using kebab-case and components should use PascalCase;
+
+### Utility Files
+
+Utility files or helper functions should be placed inside lib folder in the project root.
+
+```
+lib/
+|-- utils.ts
+|-- other-file.ts
+```
+
+### Testing
+
+#### Unit and Integration Testing
+
+- **Jest**: A popular JavaScript testing framework that provides a powerful and flexible testing environment.
+
+  - Version: ^29.6.2
+
+- **@testing-library/react**: A simple and complete testing utility for React components.
+
+  - Version: ^14.0.0
+
+- **@testing-library/jest-dom**: Custom Jest matchers for asserting on DOM elements.
+
+  - Version: 6.1.2
+
+- **@testing-library/user-event**: A companion library for @testing-library/react that provides utilities for simulating user events.
+
+  - Version: ^14.4.3
+
+- **@types/jest, @types/react, @types/react-dom**: TypeScript type definitions for Jest, React, and React DOM.
+  - Version: latest
+
+## Authors
+
+- [Olavo de Carvalho](https://github.com/olavocarvalho)
