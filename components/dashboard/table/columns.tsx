@@ -10,6 +10,7 @@ import { DataTableColumnHeader } from "./data-table-column-header";
 import Image from "next/image";
 import { formatCnpj, formatDate, formatPrice } from "@/lib/utils";
 import { ComputerIcon } from "lucide-react";
+import { format } from "date-fns";
 
 export const columns: ColumnDef<Item>[] = [
   {
@@ -38,8 +39,8 @@ export const columns: ColumnDef<Item>[] = [
     ),
     cell: ({ row }) => {
       return (
-        <div className="flex w-auto items-center mr-4">
-          <span>{formatDate(row.original.date)}</span>
+        <div className="flex w-auto items-center mr-4 min-w-[90px]">
+          <span>{format(new Date(row.original.date), "LLL dd, y")}</span>
         </div>
       );
     },
@@ -133,8 +134,7 @@ export const columns: ColumnDef<Item>[] = [
     cell: ({ row }) => {
       return (
         <div className="flex space-x-1 mr-4">
-          <Badge variant="outline">{row.original.channelCode}</Badge>
-          <span className="w-fit truncate font-medium">
+          <span className="w-fit truncate font-medium text-slate-500 dark:text-slate-300">
             {row.original.channel}
           </span>
         </div>
@@ -170,7 +170,6 @@ export const columns: ColumnDef<Item>[] = [
       );
     },
     filterFn: (row, id, value) => {
-      console.log(row, id, value);
       return value.includes(row.original.cardBrand);
     },
   },

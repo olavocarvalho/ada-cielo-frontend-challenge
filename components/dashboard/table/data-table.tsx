@@ -56,8 +56,8 @@ export function DataTable<TData, TValue>({
   const [sorting, setSorting] = React.useState<SortingState>([]);
 
   // Search Params
-  const _pageIndex = searchParams?.get("pageNumber") ?? "1";
-  const _pageSize = searchParams?.get("pageSize") ?? "25";
+  const _pageIndex = searchParams?.get("page") ?? "1";
+  const _pageSize = searchParams?.get("per_page") ?? "25";
 
   // Create Query String
   const createQueryString = React.useCallback(
@@ -104,7 +104,8 @@ export function DataTable<TData, TValue>({
       `${pathname}?${createQueryString({
         page: pageIndex + 1,
         per_page: pageSize,
-      })}`
+      })}`,
+      { scroll: false }
     );
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -127,7 +128,8 @@ export function DataTable<TData, TValue>({
           `${pathname}?${createQueryString({
             page: 1,
             [column.id]: column.value.join("."),
-          })}`
+          })}`,
+          { scroll: false }
         );
       }
     }
@@ -142,7 +144,8 @@ export function DataTable<TData, TValue>({
           `${pathname}?${createQueryString({
             page: 1,
             [key]: null,
-          })}`
+          })}`,
+          { scroll: false }
         );
       }
     }

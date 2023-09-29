@@ -8,11 +8,12 @@ import { columns } from "@/components/dashboard/table/columns";
 import { DataTable } from "@/components/dashboard/table/data-table";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { CalendarDateRangePicker } from "@/components/dashboard/date-range-picker";
+import { CalendarDateRangePicker } from "@/components/dashboard/calendar-date-range-picker";
 import { DEFAULT_PAGE_SIZE } from "@/config/dashboard";
 import { formatPrice } from "@/lib/utils";
 import { Metadata } from "next";
 import { z } from "zod";
+import { getTransactionsData } from "@/actions/get-transactions-data";
 
 interface DashboardPageProps {
   searchParams: {
@@ -26,61 +27,24 @@ export const metadata: Metadata = {
     "Example dashboard app built using the JSON provided to ADA & Cielo Bootcamp Challenge.",
 };
 
-interface TransactionsDataParams {
-  initialDate: string | string[] | undefined;
-  finalDate: string | string[] | undefined;
-  limit: number;
-  offset: number;
-  status: string | string[] | undefined;
-  cardBrand: string | string[] | undefined;
-}
-
-async function getTransactionsData(params: TransactionsDataParams) {
-  const getTransactionsDataParams = new URLSearchParams();
-
-  for (const [key, value] of Object.entries(params)) {
-    if (value === null || value === undefined) {
-      getTransactionsDataParams.delete(key);
-    } else {
-      getTransactionsDataParams.set(key, encodeURIComponent(value));
-    }
-  }
-
-  const res = await fetch(
-    `${
-      process.env.NEXT_PUBLIC_API_BASE_URL
-    }/transactions?${getTransactionsDataParams.toString()}`
-  );
-
-  if (!res.ok) {
-    // This will activate the `error.ts` Error Boundary
-    throw new Error("Failed to fetch data");
-  }
-
-  return res.json();
-}
-
-export default async function DashboardPage({
-  searchParams,
-}: DashboardPageProps) {
+export default async function Dashboard({ searchParams }: DashboardPageProps) {
   // Get the Dashboard State from the searchParams
-  const { initialDate, finalDate, pageNumber, pageSize, status, cardBrand } =
-    searchParams;
+  const { initialDate, finalDate, page, per_page, status, cardBrand } =
+    searchParams || {};
+
+  console.log(searchParams);
 
   // Number of items per page
   const limit =
-    typeof pageSize === "string" ? parseInt(pageSize) : DEFAULT_PAGE_SIZE;
+    typeof per_page === "string" ? parseInt(per_page) : DEFAULT_PAGE_SIZE;
 
   // Number of items to skip [pageSize * (pageNumber - 1)]
   const offset =
-    typeof pageNumber === "string"
-      ? parseInt(pageNumber) > 0
-        ? (parseInt(pageNumber) - 1) * limit
+    typeof page === "string"
+      ? parseInt(page) > 0
+        ? (parseInt(page) - 1) * limit
         : 0
       : 0;
-
-  const _statuses =
-    typeof status === "string" ? (status.split(".") as Item["status"][]) : [];
 
   const { data: transactionsData }: { data: MockedData } =
     await getTransactionsData({
@@ -129,32 +93,22 @@ export default async function DashboardPage({
   //   );
   // };
 
-  // console.log({
-  //   initialDate,
-  //   finalDate,
-  //   pageNumber,
-  //   pageSize,
-  //   limit,
-  //   offset,
-  //   statuses,
-  // });
-
   return (
-    <div className="flex flex-col pb-8">
+    <div className="flex flex-col pb-8 w-full overflow-x-hidden">
       <div className="border-b">
-        <div className="flex h-16 items-center px-4 max-w-6xl mx-auto justify-between">
-          <h1>ADA & Cielo Bootcamp Challenge</h1>
+        <div className="flex h-16 items-center lg:max-w-6xl max-w-xs mx-auto justify-between overflow-x-hidden gap-x-4 px-2">
+          <h1>ADA & Cielo Bootcamp</h1>
           <ThemeToggle />
         </div>
       </div>
-      <div className="flex flex-col space-y-6 mt-6 max-w-6xl mx-auto px-4 w-full">
-        <div className="flex items-center justify-between w-full">
+      <div className="flex flex-col space-y-6 mt-6 lg:max-w-6xl max-w-xs mx-auto w-full px-2">
+        <div className="flex items-center justify-between w-full flex-col md:flex-row gap-y-4 md:gap-y-0">
           <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
           <div className="flex items-center space-x-2">
             <CalendarDateRangePicker
               initialFrom={transactionsData.summary.initialDate}
               initialTo={transactionsData.summary.finalDate}
-              disabled
+              disabled={false}
             />
           </div>
         </div>
@@ -271,9 +225,9 @@ export default async function DashboardPage({
             </CardContent>
           </Card>
         </div>
-        <div className="flex flex-1">
-          <Card>
-            <CardContent className="mt-6 min-w-full lg:max-w-[1120px]">
+        <div className="flex flex-1 overflow-x-scroll">
+          <Card className="overflow-x-hidden">
+            <CardContent className="mt-6 min-w-full max-w-full overflow-x-scroll">
               <DataTable
                 data={transactions}
                 columns={columns}

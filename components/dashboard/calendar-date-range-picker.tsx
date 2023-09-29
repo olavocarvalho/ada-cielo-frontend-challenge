@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { CalendarIcon } from "@radix-ui/react-icons";
-import { addDays, format, set } from "date-fns";
+import { format } from "date-fns";
 import { DateRange } from "react-day-picker";
 
 import { cn } from "@/lib/utils";
@@ -75,8 +75,9 @@ export function CalendarDateRangePicker({
         `${pathname}?${createQueryString({
           page: 1,
           initialDate: date.from.toISOString(),
-          finalDate: date.from.toISOString(),
-        })}`
+          finalDate: date.to.toISOString(),
+        })}`,
+        { scroll: false }
       );
     }
 

@@ -1,18 +1,5 @@
 import { z } from "zod";
 
-// Task Example - TO DELETE
-export const taskSchema = z.object({
-  id: z.string(),
-  title: z.string(),
-  status: z.string(),
-  label: z.string(),
-  priority: z.string(),
-});
-
-export type Task = z.infer<typeof taskSchema>;
-
-// END Task Example
-
 export const summarySchema = z.object({
   totalQuantity: z.number(),
   totalAmount: z.number(),
@@ -35,7 +22,7 @@ export const itemSchema = z.object({
   id: z.string(),
   merchantId: z.string(),
   paymentNode: z.number(),
-  cnpjRoot: z.number(),
+  cnpjRoot: z.number().min(0o0).max(999999),
   date: z.string(),
   paymentType: z.string(),
   cardBrand: z.string(),
@@ -61,5 +48,6 @@ export const mockedDataSchema = z.object({
 });
 
 export type MockedData = z.infer<typeof mockedDataSchema>;
+export type Summary = z.infer<typeof summarySchema>;
 export type Item = z.infer<typeof itemSchema>;
 export type Pagination = z.infer<typeof paginationSchema>;
