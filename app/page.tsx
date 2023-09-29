@@ -1,17 +1,24 @@
+import { cardBrands, statuses } from "@/components/dashboard/data/data";
 import {
   Item,
   MockedData,
   itemSchema,
-  taskSchema,
 } from "@/components/dashboard/data/schema";
 import { columns } from "@/components/dashboard/table/columns";
 import { DataTable } from "@/components/dashboard/table/data-table";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { CalendarDateRangePicker } from "@/components/ui/date-range-picker";
+import { CalendarDateRangePicker } from "@/components/dashboard/date-range-picker";
+import { DEFAULT_PAGE_SIZE } from "@/config/dashboard";
 import { formatPrice } from "@/lib/utils";
 import { Metadata } from "next";
 import { z } from "zod";
+
+interface DashboardPageProps {
+  searchParams: {
+    [key: string]: string | string[] | undefined;
+  };
+}
 
 export const metadata: Metadata = {
   title: "Dashboard",
@@ -19,8 +26,31 @@ export const metadata: Metadata = {
     "Example dashboard app built using the JSON provided to ADA & Cielo Bootcamp Challenge.",
 };
 
-async function getDashboardData() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/dashboard`);
+interface TransactionsDataParams {
+  initialDate: string | string[] | undefined;
+  finalDate: string | string[] | undefined;
+  limit: number;
+  offset: number;
+  status: string | string[] | undefined;
+  cardBrand: string | string[] | undefined;
+}
+
+async function getTransactionsData(params: TransactionsDataParams) {
+  const getTransactionsDataParams = new URLSearchParams();
+
+  for (const [key, value] of Object.entries(params)) {
+    if (value === null || value === undefined) {
+      getTransactionsDataParams.delete(key);
+    } else {
+      getTransactionsDataParams.set(key, encodeURIComponent(value));
+    }
+  }
+
+  const res = await fetch(
+    `${
+      process.env.NEXT_PUBLIC_API_BASE_URL
+    }/transactions?${getTransactionsDataParams.toString()}`
+  );
 
   if (!res.ok) {
     // This will activate the `error.ts` Error Boundary
@@ -30,62 +60,84 @@ async function getDashboardData() {
   return res.json();
 }
 
-async function getTasksData() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/tasks`);
+export default async function DashboardPage({
+  searchParams,
+}: DashboardPageProps) {
+  // Get the Dashboard State from the searchParams
+  const { initialDate, finalDate, pageNumber, pageSize, status, cardBrand } =
+    searchParams;
 
-  if (!res.ok) {
-    // This will activate the `error.ts` Error Boundary
-    throw new Error("Failed to fetch data");
-  }
+  // Number of items per page
+  const limit =
+    typeof pageSize === "string" ? parseInt(pageSize) : DEFAULT_PAGE_SIZE;
 
-  return res.json();
-}
+  // Number of items to skip [pageSize * (pageNumber - 1)]
+  const offset =
+    typeof pageNumber === "string"
+      ? parseInt(pageNumber) > 0
+        ? (parseInt(pageNumber) - 1) * limit
+        : 0
+      : 0;
 
-export default async function Home() {
-  const { data: dashboardData }: { data: MockedData } =
-    await getDashboardData();
+  const _statuses =
+    typeof status === "string" ? (status.split(".") as Item["status"][]) : [];
 
-  const mockedTasks = await getTasksData();
+  const { data: transactionsData }: { data: MockedData } =
+    await getTransactionsData({
+      initialDate,
+      finalDate,
+      limit,
+      offset,
+      status,
+      cardBrand,
+    });
 
-  const transactions = z.array(itemSchema).parse(dashboardData.items);
+  const transactions = z.array(itemSchema).parse(transactionsData.items);
 
   const fees =
-    dashboardData.summary.totalAmount - dashboardData.summary.totalNetAmount;
+    transactionsData.summary.totalAmount -
+    transactionsData.summary.totalNetAmount;
   const roundedFees = parseFloat(fees.toFixed(2));
 
-  const countUniqueTypes = (transactions: Item[]): Record<string, number> => {
-    return transactions.reduce(
-      (counts, transaction) => {
-        const { paymentType, cardBrand, channelCode, status } = transaction;
+  // const countUniqueTypes = (transactions: any[]): Record<string, number> => {
+  //   return transactions.reduce(
+  //     (counts, transaction) => {
+  //       const { paymentType, cardBrand, channelCode, status } = transaction;
 
-        // Count paymentType
-        counts.paymentType[paymentType] =
-          (counts.paymentType[paymentType] || 0) + 1;
+  //       // Count paymentType
+  //       counts.paymentType[paymentType] =
+  //         (counts.paymentType[paymentType] || 0) + 1;
 
-        // Count cardBrand
-        counts.cardBrand[cardBrand] = (counts.cardBrand[cardBrand] || 0) + 1;
+  //       // Count cardBrand
+  //       counts.cardBrand[cardBrand] = (counts.cardBrand[cardBrand] || 0) + 1;
 
-        // Count channelCode
-        counts.channelCode[channelCode.toString()] =
-          (counts.channelCode[channelCode.toString()] || 0) + 1;
+  //       // Count channelCode
+  //       counts.channelCode[channelCode.toString()] =
+  //         (counts.channelCode[channelCode.toString()] || 0) + 1;
 
-        // Count status
-        counts.status[status] = (counts.status[status] || 0) + 1;
+  //       // Count status
+  //       counts.status[status] = (counts.status[status] || 0) + 1;
 
-        return counts;
-      },
-      {
-        paymentType: {},
-        cardBrand: {},
-        channelCode: {},
-        status: {},
-      }
-    );
-  };
+  //       return counts;
+  //     },
+  //     {
+  //       paymentType: {},
+  //       cardBrand: {},
+  //       channelCode: {},
+  //       status: {},
+  //     }
+  //   );
+  // };
 
-  const dashboardDataCounts = countUniqueTypes(transactions);
-
-  console.log(dashboardDataCounts);
+  // console.log({
+  //   initialDate,
+  //   finalDate,
+  //   pageNumber,
+  //   pageSize,
+  //   limit,
+  //   offset,
+  //   statuses,
+  // });
 
   return (
     <div className="flex flex-col pb-8">
@@ -100,8 +152,8 @@ export default async function Home() {
           <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
           <div className="flex items-center space-x-2">
             <CalendarDateRangePicker
-              initialFrom={dashboardData.summary.initialDate}
-              initialTo={dashboardData.summary.finalDate}
+              initialFrom={transactionsData.summary.initialDate}
+              initialTo={transactionsData.summary.finalDate}
               disabled
             />
           </div>
@@ -127,11 +179,10 @@ export default async function Home() {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">
-                {dashboardData.summary.totalQuantity}
+                {transactionsData.summary.totalQuantity}
               </div>
               <p className="text-xs text-muted-foreground mt-1">
-                {formatPrice(dashboardData.summary.totalAverageAmount)} average
-                per transaction
+                Approveds, pending and denieds
               </p>
             </CardContent>
           </Card>
@@ -156,10 +207,10 @@ export default async function Home() {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">
-                {formatPrice(dashboardData.summary.totalAmount)}
+                {formatPrice(transactionsData.summary.totalAmount)}
               </div>
               <p className="text-xs text-muted-foreground mt-1">
-                including {formatPrice(roundedFees)} of fees and charges
+                Including fees and charges
               </p>
             </CardContent>
           </Card>
@@ -183,10 +234,10 @@ export default async function Home() {
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">
-                {formatPrice(dashboardData.summary.totalNetAmount)}
+                {formatPrice(transactionsData.summary.totalNetAmount)}
               </div>
               <p className="text-xs text-muted-foreground mt-1">
-                excluding {formatPrice(roundedFees)} of fees and charges
+                Excluding {formatPrice(roundedFees)} of fees
               </p>
             </CardContent>
           </Card>
@@ -196,21 +247,23 @@ export default async function Home() {
                 Average Amount
               </CardTitle>
               <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
+                width="15"
+                height="15"
+                viewBox="0 0 15 15"
                 fill="none"
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                className="h-4 w-4 text-muted-foreground"
+                xmlns="http://www.w3.org/2000/svg"
               >
-                <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+                <path
+                  d="M9.94969 7.49989C9.94969 8.85288 8.85288 9.94969 7.49989 9.94969C6.14691 9.94969 5.0501 8.85288 5.0501 7.49989C5.0501 6.14691 6.14691 5.0501 7.49989 5.0501C8.85288 5.0501 9.94969 6.14691 9.94969 7.49989ZM10.8632 8C10.6213 9.64055 9.20764 10.8997 7.49989 10.8997C5.79214 10.8997 4.37847 9.64055 4.13662 8H0.5C0.223858 8 0 7.77614 0 7.5C0 7.22386 0.223858 7 0.5 7H4.13659C4.37835 5.35935 5.79206 4.1001 7.49989 4.1001C9.20772 4.1001 10.6214 5.35935 10.8632 7H14.5C14.7761 7 15 7.22386 15 7.5C15 7.77614 14.7761 8 14.5 8H10.8632Z"
+                  fill="currentColor"
+                  fillRule="evenodd"
+                  clipRule="evenodd"
+                ></path>
               </svg>
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">
-                {formatPrice(dashboardData.summary.totalAverageAmount)}
+                {formatPrice(transactionsData.summary.totalAverageAmount)}
               </div>
               <p className="text-xs text-muted-foreground mt-1">
                 Per transaction
@@ -220,8 +273,24 @@ export default async function Home() {
         </div>
         <div className="flex flex-1">
           <Card>
-            <CardContent className="mt-6">
-              <DataTable data={transactions} columns={columns} />
+            <CardContent className="mt-6 min-w-full lg:max-w-[1120px]">
+              <DataTable
+                data={transactions}
+                columns={columns}
+                pageCount={transactionsData.pagination.numPages}
+                filterableColumns={[
+                  {
+                    id: "status",
+                    title: "Status",
+                    options: statuses,
+                  },
+                  {
+                    id: "cardBrand",
+                    title: "Card",
+                    options: cardBrands,
+                  },
+                ]}
+              />
             </CardContent>
           </Card>
         </div>

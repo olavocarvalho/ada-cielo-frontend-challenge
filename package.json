@@ -17,11 +17,12 @@
     "@radix-ui/react-select": "^2.0.0",
     "@radix-ui/react-separator": "^1.0.3",
     "@radix-ui/react-slot": "^1.0.2",
-    "@tanstack/react-table": "^8.10.3",
+    "@tanstack/react-table": "8.9.3",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "cmdk": "^0.2.0",
     "date-fns": "^2.30.0",
+    "fs": "^0.0.1-security",
     "lucide-react": "^0.279.0",
     "next": "latest",
     "next-themes": "^0.2.1",
@@ -33,6 +34,7 @@
     "zod": "^3.22.2"
   },
   "devDependencies": {
+    "@faker-js/faker": "^8.1.0",
     "@types/node": "latest",
     "@types/react": "latest",
     "@types/react-dom": "latest",

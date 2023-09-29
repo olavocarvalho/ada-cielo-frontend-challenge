@@ -4,7 +4,7 @@ import { ColumnDef } from "@tanstack/react-table";
 
 import { Badge } from "@/components/ui/badge";
 
-import { cardBrand, statuses } from "../data/data";
+import { cardBrands, statuses } from "../data/data";
 import { Item } from "../data/schema";
 import { DataTableColumnHeader } from "./data-table-column-header";
 import Image from "next/image";
@@ -121,6 +121,9 @@ export const columns: ColumnDef<Item>[] = [
         </div>
       );
     },
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id));
+    },
   },
   {
     accessorKey: "Channel",
@@ -139,12 +142,12 @@ export const columns: ColumnDef<Item>[] = [
     },
   },
   {
-    accessorKey: "card",
+    accessorKey: "cardBrand",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Card" />
     ),
     cell: ({ row }) => {
-      const card = cardBrand.find(
+      const card = cardBrands.find(
         (brand) => brand.value === row.original.cardBrand
       );
 
@@ -167,7 +170,8 @@ export const columns: ColumnDef<Item>[] = [
       );
     },
     filterFn: (row, id, value) => {
-      return value.includes(row.getValue(id));
+      console.log(row, id, value);
+      return value.includes(row.original.cardBrand);
     },
   },
 ];
