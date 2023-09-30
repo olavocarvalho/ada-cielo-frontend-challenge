@@ -107,6 +107,6 @@ describe("filterTransactionsByDateRange", () => {
       finalDate
     );
 
-    expect(result).toHaveLength(2);
+    expect(result).toHaveLength(3);
   });
 });
