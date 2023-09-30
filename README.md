@@ -4,6 +4,8 @@ The challenge is to transform the information (the json provided) from a legacy 
 
 Since analytical and dashboard apps are mostly used in a daily basis or shared between coworkers, I focused to create a dashboard that the state can be shared or bookable in favorites due to the 'state' of the dashboard be stored in the URL instead internally by the app (You can test by copying the url and pasting a new browser tab).
 
+For a better data manipulation, I created a seed function (inside lib folder) to generate more data in the same strucutre otherwise was going to be impossible to create any chart or user interaction since is impossible to aggregate data with only one page of data.
+
 ### Next steps and Known Issues
 
 - The test coverage wasn't >= 80% because I spent more time than I expected to create a way to manage the state of the dashboard in the URL and a server-side pagination and filtering system for the table
