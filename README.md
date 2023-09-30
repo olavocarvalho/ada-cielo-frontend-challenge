@@ -94,7 +94,7 @@ Continuous variables are measurable and can take any numerical value within a ra
 
 ## App in dev mode
 
-First, create .env.local file from the .env.example and set the environment variables, then:
+First, create .env.local file from the .env.example and set the environment variables, for local development purpose you'll propably use `http://localhost:3000/api` for `NEXT_PUBLIC_API_BASE_URL` then:
 
 ```bash
 npm run dev
