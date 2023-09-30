@@ -19,6 +19,17 @@ describe("mockedDataSchema", () => {
         lastPage: false,
         firstPage: true,
       },
+      counts: {
+        countsByDay: {
+          "2023-09-14": { Approved: 80, Pending: 77, Denied: 85 },
+          "2023-09-15": { Denied: 89, Approved: 96, Pending: 116 },
+          "2023-09-16": { Approved: 88, Denied: 91, Pending: 93 },
+          "2023-09-17": { Denied: 83, Pending: 107, Approved: 96 },
+          "2023-09-18": { Denied: 101, Approved: 62, Pending: 83 },
+        },
+        countsByStatus: { Approved: 422, Pending: 476, Denied: 449 },
+        countsByBrand: { Hipercard: 362, Elo: 326, Visa: 326, Mastercard: 333 },
+      },
       items: [
         {
           id: "1",
@@ -64,6 +75,15 @@ describe("mockedDataSchema", () => {
         numPages: 10,
         lastPage: false,
         firstPage: true,
+      },
+      counts: {
+        countsByDay: {
+          "2023-09-14": { Approved: 80, Pending: 77, Denied: 85 },
+          "2023-09-15": { Denied: 89, Approved: 96, Pending: 116 },
+          "2023-09-16": { Approved: 88, Denied: 91, Pending: 93 },
+          "2023-09-17": { Denied: 83, Pending: 107, Approved: 96 },
+          "2023-09-18": { Denied: 101, Approved: 62, Pending: 83 },
+        },
       },
       items: [
         {

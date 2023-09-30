@@ -31,9 +31,12 @@ function convertToRechartsData(inputData) {
 export function CountByDay({ data }: { data: any }) {
   const transformedData = convertToRechartsData(data);
 
-  console.log(transformedData);
   return (
-    <ResponsiveContainer width="100%" height={350}>
+    <ResponsiveContainer
+      width="100%"
+      height={350}
+      data-testid="chart-countByDay"
+    >
       <BarChart data={transformedData}>
         <XAxis
           dataKey="date"

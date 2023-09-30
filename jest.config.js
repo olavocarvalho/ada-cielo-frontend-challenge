@@ -8,6 +8,7 @@ const createJestConfig = nextJest({
 // Add any custom config to be passed to Jest
 const customJestConfig = {
   setupFilesAfterEnv: ["<rootDir>/jest.setup.js"],
+  setupFiles: ["<rootDir>/__mocks__/mock-resize-observer.js"],
   testEnvironment: "jest-environment-jsdom",
 };
 
